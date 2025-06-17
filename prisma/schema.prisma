@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(uuid())
+  name        String
+  email       String?  @unique
+  password    String?  // nullable for temporary users
+  availabilities Availability[]
+  createdEvents Event[] @relation("CreatedEvents")
+  responses    Response[]
+  createdAt    DateTime @default(now())
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  creator     User     @relation("CreatedEvents", fields: [creatorId], references: [id])
+  creatorId   String
+  timeOptions TimeOption[]
+  responses   Response[]
+  createdAt   DateTime @default(now())
+}
+
+model TimeOption {
+  id        String   @id @default(uuid())
+  event     Event   @relation(fields: [eventId], references: [id])
+  eventId   String
+  // If specific date, set date; if recurring, set dayOfWeek
+  date      DateTime?
+  dayOfWeek Int?     // 0 = Sunday, 6 = Saturday
+  startTime String   // e.g., "09:00"
+  endTime   String   // e.g., "17:00"
+  timezone  String
+  availabilities Availability[]
+}
+
+model Availability {
+  id          String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  timeOption  TimeOption @relation(fields: [timeOptionId], references: [id])
+  timeOptionId String
+  // 30-min increments, e.g., ["09:00", "09:30", ...]
+  slots       String[]
+}
+
+model Response {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  event     Event    @relation(fields: [eventId], references: [id])
+  eventId   String
+  createdAt DateTime @default(now())
+}
