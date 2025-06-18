@@ -7,18 +7,29 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true
   },
-  experimental: {
-    esmExternals: false
-  },
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     // Handle Prisma generated files
     config.module.rules.push({
       test: /\.(js|mjs|jsx|ts|tsx)$/,
-      include: [/src\/generated/],
+      include: [/prisma-client/],
       type: 'javascript/auto'
     });
 
+    // Ensure Prisma client is properly bundled
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+
     return config;
+  },
+  // Ensure Prisma client is properly handled in production
+  experimental: {
+    serverComponentsExternalPackages: ['@prisma/client', 'prisma-client']
   }
 }
 
