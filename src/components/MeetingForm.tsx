@@ -56,7 +56,7 @@ export function MeetingForm({
   return (
     <div className="flex flex-col h-full p-8 bg-white min-w-[350px] max-w-[400px] w-full">
       <div className="mb-8 flex items-end gap-2">
-        <img src="/logo.png" alt="logo" className="h-10 w-auto" />
+        <img src="/logo.png" alt="Tomeeto Tomahto Logo" className="h-10 w-auto" />
         <span className="font-bold text-xl text-[#3d5c2c]">
           tomeeto tomahto
         </span>

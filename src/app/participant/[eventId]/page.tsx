@@ -126,8 +126,12 @@ export default function ParticipantPage() {
       <div className="w-[449px] bg-[#FEFCFA] flex flex-col relative">
         {/* Logo */}
         <div className="absolute left-[21px] top-[20px]">
-          <div className="w-[114px] h-[114px] bg-[#e5722a] rounded-full flex items-center justify-center">
-            <span className="text-white font-bold text-lg">LOGO</span>
+          <div className="w-[114px] h-[114px] rounded-full flex items-center justify-center overflow-hidden">
+            <img 
+              src="/logo.png" 
+              alt="Tomeeto Tomahto Logo" 
+              className="w-full h-full object-contain"
+            />
           </div>
         </div>
 

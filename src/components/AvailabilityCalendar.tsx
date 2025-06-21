@@ -68,8 +68,8 @@ export function AvailabilityCalendar({
   if (!selectedDates || selectedDates.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full w-full bg-[#4d6137]">
-        <div className="rounded-full bg-[#f6e6c7] flex items-center justify-center w-48 h-48 mb-6">
-          <img src="/logo.png" alt="logo" className="h-24 w-auto" />
+        <div className="rounded-full bg-[#f6e6c7] flex items-center justify-center w-48 h-48 mb-6 overflow-hidden">
+          <img src="/logo.png" alt="Tomeeto Tomahto Logo" className="w-full h-full object-contain p-8" />
         </div>
         <div className="text-white text-center text-sm">
           Select dates to see preview
