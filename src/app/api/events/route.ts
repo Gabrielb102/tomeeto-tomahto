@@ -1,15 +1,15 @@
-import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { CreateEventInput } from '@/types/event';
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { CreateEventInput } from "@/types/event";
 
 export async function POST(request: Request) {
   try {
     const body: CreateEventInput = await request.json();
-    
+
     // Create a temporary user for now (we'll implement proper auth later)
     const tempUser = await prisma.user.create({
       data: {
-        name: 'Temporary User',
+        name: "Temporary User",
       },
     });
 
@@ -18,9 +18,10 @@ export async function POST(request: Request) {
       data: {
         title: body.title,
         description: body.description,
+        password: body.password,
         creatorId: tempUser.id,
         timeOptions: {
-          create: body.timeOptions.map(option => ({
+          create: body.timeOptions.map((option) => ({
             dayOfWeek: option.dayOfWeek,
             date: option.date ? new Date(option.date) : null,
             startTime: option.startTime,
@@ -36,10 +37,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json(event);
   } catch (error) {
-    console.error('Error creating event:', error);
+    console.error("Error creating event:", error);
     return NextResponse.json(
-      { error: 'Failed to create event' },
-      { status: 500 }
+      { error: "Failed to create event" },
+      { status: 500 },
     );
   }
-} 
+}

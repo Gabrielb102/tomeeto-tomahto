@@ -9,5 +9,6 @@ export type TimeOption = {
 export type CreateEventInput = {
   title: string;
   description: string;
+  password?: string;
   timeOptions: TimeOption[];
-}; 
+};
